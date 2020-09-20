@@ -2,11 +2,11 @@
 
 namespace Ciber_Turtle.IO
 {
-  public class IOSlots
-  {
-    void Use()
-    {
-      IO.encoding = IO.EncodingMethod.ASCII;
-    }
-  }
+	public class IOSlots
+	{
+		void Use()
+		{
+			IO.encoding = IO.EncodingMethod.ASCII;
+		}
+	}
 }

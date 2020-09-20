@@ -2,8 +2,8 @@
 
 namespace Ciber_Turtle.Cheats
 {
-  public class CheatEngine : MonoBehaviour
-  {
-    public Cheat[] cheats;
-  }
+	public class CheatEngine : MonoBehaviour
+	{
+		public Cheat[] cheats;
+	}
 }

@@ -4,55 +4,55 @@ using UnityEngine;
 
 namespace Ciber_Turtle.GameStats.Logging
 {
-  [AddComponentMenu("Ciber_Turtle/Game Stats/Game Stats Logger"), RequireComponent(typeof(GameStatsCore)), DisallowMultipleComponent]
-  public class GameStatsLogger : MonoBehaviour
-  {
-    #region Varibles > Public
-    public bool loggingEnable = true;
-    #endregion
+	[AddComponentMenu("Ciber_Turtle/Game Stats/Game Stats Logger"), RequireComponent(typeof(GameStatsCore)), DisallowMultipleComponent]
+	public class GameStatsLogger : MonoBehaviour
+	{
+		#region Varibles > Public
+		public bool loggingEnable = true;
+		#endregion
 
-    #region Varibles > Private
-    [SerializeField, TextArea] string logPath = "Assets/Logs/GameStatsLog{version_num}.txt";
-    [SerializeField] float timeBtwLogs = 10f;
+		#region Varibles > Private
+		[SerializeField, TextArea] string logPath = "Assets/Logs/GameStatsLog{version_num}.txt";
+		[SerializeField] float timeBtwLogs = 10f;
 
-    int playNum;
-    int logNum;
-    float logCooldown;
+		int playNum;
+		int logNum;
+		float logCooldown;
 
-    GameStatsCore core;
-    #endregion
+		GameStatsCore core;
+		#endregion
 
-    private void Awake()
-    {
-      core = GetComponent<GameStatsCore>();
+		private void Awake()
+		{
+			core = GetComponent<GameStatsCore>();
 
-      logCooldown = timeBtwLogs;
+			logCooldown = timeBtwLogs;
 
-      Debug.Log($"Logging in {logPath}");
-    }
+			Debug.Log($"Logging in {logPath}");
+		}
 
-    private void FixedUpdate()
-    {
-      logCooldown -= Time.unscaledDeltaTime;
-      if (logCooldown < 0)
-      {
-        logCooldown = timeBtwLogs;
-        Log();
-      }
-    }
+		private void FixedUpdate()
+		{
+			logCooldown -= Time.unscaledDeltaTime;
+			if (logCooldown < 0)
+			{
+				logCooldown = timeBtwLogs;
+				Log();
+			}
+		}
 
-    public bool Log()
-    {
-      string logId;
-      string logLine;
+		public bool Log()
+		{
+			string logId;
+			string logLine;
 
-      logId = $"[v{Application.version} #{playNum}.{logNum} | { System.DateTime.Now.ToShortDateString() } | { System.DateTime.Now.ToLongTimeString()}]";
+			logId = $"[v{Application.version} #{playNum}.{logNum} | { System.DateTime.Now.ToShortDateString() } | { System.DateTime.Now.ToLongTimeString()}]";
 
-      logLine = $"fps: {core.fps}";
+			logLine = $"fps: {core.fps}";
 
-      Debug.Log($"\n{logId}\n{logLine}");
+			Debug.Log($"\n{logId}\n{logLine}");
 
-      return false;
-    }
-  }
+			return false;
+		}
+	}
 }
