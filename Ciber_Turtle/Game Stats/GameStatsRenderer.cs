@@ -3,125 +3,138 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Ciber_Turtle.UI;
 
 namespace Ciber_Turtle.GameStats
 {
-  [AddComponentMenu("Ciber_Turtle/Game Stats/Game Stats Renderer"), RequireComponent(typeof(GameStatsCore)), DisallowMultipleComponent]
-  public class GameStatsRenderer : MonoBehaviour
-  {
-    #region Varibles > Public
-    [Header("General")]
-    public int timeBtwRefresh = 1;
-    [Header("Coloring")]
-    public float goodFps = 50f;
-    public Color goodColor = Color.green;
-    public float okFps = 30f;
-    public Color okColor = Color.yellow;
-    [Space]
-    //public float badFps;
-    public Color badColor = Color.red;
-    [Header("Text")]
-    public string fpsStarterString = "Fps: ";
-    public string fpsAverageStarterString = "Avg: ";
-    [Space]
-    public TMP_Text fpsText;
-    public TMP_Text fpsAverageText;
-    public Image fpsGraph;
-    #endregion
+	[AddComponentMenu("Ciber_Turtle/Game Stats/Game Stats Renderer"), RequireComponent(typeof(GameStatsCore)), DisallowMultipleComponent]
+	public class GameStatsRenderer : MonoBehaviour
+	{
+		#region Varibles > [SerializeField]
+		[Header("General")]
+		[SerializeField] int timeBtwRefresh = 1;
+		[Header("Coloring")]
+		[SerializeField] float goodFps = 50f;
+		[SerializeField] Color goodColor = Color.green;
+		[SerializeField] float okFps = 30f;
+		[SerializeField] Color okColor = Color.yellow;
+		[Space]
+		//[SerializeField] float badFps;
+		[SerializeField] Color badColor = Color.red;
+		[Header("Text")]
+		[SerializeField] string fpsStarterString = "Fps: ";
+		[SerializeField] string fpsAverageStarterString = "Avg: ";
+		[Space]
+		[SerializeField] Vector2Int fpsGraphSize;
+		[Space]
+		[SerializeField] UIBitText fpsText;
+		[SerializeField] UIBitText fpsAverageText;
+		[SerializeField] Image fpsGraph;
+		[SerializeField, Tooltip("The Rect Transform that gets scaled")] RectTransform fpsGraphHolder;
+		#endregion
 
-    #region Varibles > Private
-    float refreshCooldown;
-    Texture2D blankTex;
+		#region Varibles > Private
+		float refreshCooldown;
+		int fpsGraphXPos;
+		Texture2D fpsGraphRend;
 
-    GameStatsCore core;
-    #endregion
+		GameStatsCore core;
+		#endregion
 
-    private void Awake()
-    {
-      core = GetComponent<GameStatsCore>();
-      blankTex = new Texture2D(core.historySize, 120);
+		void Awake()
+		{
+			core = GetComponent<GameStatsCore>();
 
-      Color[] pixels = Enumerable.Repeat(new Color(0, 0, 0, 0.75f), Screen.width * Screen.height).ToArray();
-      blankTex.SetPixels(pixels);
-    }
+			fpsGraphRend = new Texture2D(fpsGraphSize.x, fpsGraphSize.y);
+			fpsGraphHolder.sizeDelta = fpsGraphSize;
+			fpsGraphRend.filterMode = FilterMode.Point;
+			fpsGraphRend.wrapMode = TextureWrapMode.Clamp;
+		}
 
-    private void LateUpdate()
-    {
-      refreshCooldown -= Time.unscaledDeltaTime;
-      if (refreshCooldown < 0)
-      {
-        refreshCooldown = timeBtwRefresh;
-        Refresh();
-      }
-    }
+		void LateUpdate()
+		{
+			refreshCooldown -= Time.unscaledDeltaTime;
+			if (refreshCooldown < 0)
+			{
+				refreshCooldown = timeBtwRefresh;
+				Refresh();
+			}
 
-    public void Refresh()
-    {
-      fpsText.text = $"{ fpsStarterString }{ Mathf.RoundToInt(core.fps).ToString() }";
+			GetFPSGraph();
+		}
 
-      float sum = 0;
-      foreach (float num in core.fpsHistory)
-      {
-        sum += num;
-      }
-      sum /= core.fpsHistory.Length;
+		public void Refresh()
+		{
+			fpsText.text = $"{ fpsStarterString }{ Mathf.RoundToInt(core.fps).ToString() }";
 
-      fpsAverageText.text = $"{ fpsAverageStarterString }{ Mathf.RoundToInt(sum).ToString() }";
+			float sum = 0;
+			foreach (float num in core.fpsHistory)
+			{
+				sum += num;
+			}
+			sum /= core.fpsHistory.Length;
 
-      if (core.fps > goodFps)
-        fpsText.color = goodColor;
-      else if (core.fps > okFps)
-        fpsText.color = okColor;
-      else
-        fpsText.color = badColor;
+			fpsAverageText.text = $"{ fpsAverageStarterString }{ Mathf.RoundToInt(sum).ToString() }";
 
-      if (sum > goodFps)
-        fpsAverageText.color = goodColor;
-      else if (sum > okFps)
-        fpsAverageText.color = okColor;
-      else
-        fpsAverageText.color = badColor;
-    }
+			if (core.fps > goodFps)
+				fpsText.color = goodColor;
+			else if (core.fps > okFps)
+				fpsText.color = okColor;
+			else
+				fpsText.color = badColor;
 
-    void GetFPSGraph()
-    {
-      float[] snapFPSHistory;
-      snapFPSHistory = core.fpsHistory;
+			if (sum > goodFps)
+				fpsAverageText.color = goodColor;
+			else if (sum > okFps)
+				fpsAverageText.color = okColor;
+			else
+				fpsAverageText.color = badColor;
+		}
 
-      Texture2D tex = new Texture2D(core.historySize, 120);
+		void GetFPSGraph()
+		{
+			float fpsSnapshot = core.fps;
 
-      Graphics.CopyTexture(blankTex, tex);
+			fpsGraphXPos++;
+			if (fpsGraphXPos > fpsGraphSize.x)
+			{
+				fpsGraphXPos = 0;
+			}
 
-      for (int i = 0; i < snapFPSHistory.Length - 1; i++)
-      {
-        Color color;
-        if (snapFPSHistory[i] + 1 > goodFps)
-          color = goodColor;
-        else if (snapFPSHistory[i] + 1 > okFps)
-          color = okColor;
-        else
-          color = badColor;
+			Color color;
+			if (fpsSnapshot + 1 > goodFps)
+				color = goodColor;
+			else if (fpsSnapshot + 1 > okFps)
+				color = okColor;
+			else
+				color = badColor;
 
-        for (int ii = 0; ii < 4; ii++)
-        {
-          tex.SetPixel(i, Mathf.RoundToInt(snapFPSHistory[i] - ii), color);
-        }
-      }
+			for (int i = 0; i < fpsGraphSize.y; i++)
+			{
+				fpsGraphRend.SetPixel(fpsGraphXPos, i, Color.clear);
+			}
 
-      tex.Apply();
+			if (fpsGraphXPos < fpsGraphSize.x)
+			{
+				for (int i = 0; i < fpsGraphSize.y; i++)
+				{
+					fpsGraphRend.SetPixel(fpsGraphXPos + 1, Mathf.Clamp(i, 0, fpsGraphRend.height), Color.black);
+				}
+			}
 
-      Sprite spr = Sprite.Create(
-        tex,
-        new Rect(
-          0,
-          0,
-          core.historySize,
-          120
-        ),
-        Vector2.zero
-      );
+			for (int i = 0; i < Mathf.RoundToInt(fpsSnapshot); i++)
+			{
+				fpsGraphRend.SetPixel(fpsGraphXPos, Mathf.Clamp(i, 0, fpsGraphRend.height), color);
+			}
 
-      fpsGraph.sprite = spr;
-    }
-  }
+			for (int i = 0; i < 3; i++)
+			{
+				fpsGraphRend.SetPixel(fpsGraphXPos, Mathf.Clamp(Mathf.RoundToInt(fpsSnapshot) - i, 0, fpsGraphRend.height), new Color(color.r - 0.25f, color.g - 0.25f, color.b - 0.25f));
+			}
+
+			fpsGraphRend.Apply();
+
+			fpsGraph.sprite = Sprite.Create(fpsGraphRend, new Rect(Vector2.zero, new Vector2(fpsGraphRend.width, fpsGraphRend.height)), Vector2.zero);
+		}
+	}
 }
