@@ -12,7 +12,7 @@ namespace Ciber_Turtle.GameStats
 	{
 		#region Varibles > [SerializeField]
 		[Header("General")]
-		[SerializeField] int timeBtwRefresh = 1;
+		[SerializeField] float timeBtwRefresh = 1;
 		[Header("Coloring")]
 		[SerializeField] float goodFps = 50f;
 		[SerializeField] Color goodColor = Color.green;

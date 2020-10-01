@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Ciber_Turtle.UI
 {
-	[CreateAssetMenu(fileName = "Bitmap Text Font", menuName = "Ciber_Turtle/Bitmap Text Font", order = 16)]
+	[CreateAssetMenu(fileName = "Bitmap Text Font", menuName = "Ciber_Turtle/Bitmap Text Font", order = 3)]
 	public class SOUIBitTextFont : ScriptableObject
 	{
 		public enum CharSetMode
@@ -24,7 +24,7 @@ namespace Ciber_Turtle.UI
 		[SerializeField] CharSetMode charSetMode;
 		[SerializeField] bool useLookupTable;
 		[TextArea] public string charSet;
-		public TextAsset charLookupTable;
+		[SerializeField] TextAsset charLookupTable;
 
 		public int FindCharIndex(char letter)
 		{

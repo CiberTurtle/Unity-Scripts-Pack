@@ -3,13 +3,20 @@ using UnityEngine;
 using System.Diagnostics;
 using UnityEditor;
 
-public class OpenProjectInCode
+namespace Ciber_Turtle.Tools
 {
-	[MenuItem("Tools/Open Project In Code")]
-	static void Open()
+	public class OpenProjectInCode
 	{
-		// > -r to reuse open window (defualt) <
-		// Process.Start("code", $"\"{Application.dataPath}/../\"".Replace("/", "\\"));
-		Process.Start("code", "-r" + $"\"{Application.dataPath}/../\"".Replace("/", "\\"));
+		[MenuItem("Tools/Open Project In Code")]
+		static void Open()
+		{
+			// > -r to reuse open window (defualt) <
+			// Process.Start("code", $"\"{Application.dataPath}/../\"".Replace("/", "\\"));
+			ProcessStartInfo p = new ProcessStartInfo();
+			p.FileName = "code";
+			p.Arguments = $"{Ciber_Turtle.Internal.Settings.settings.openInCodeArgs} \"{$"{Application.dataPath}/../\"".Replace("/", "\\")}";
+			p.WindowStyle = ProcessWindowStyle.Hidden;
+			Process.Start(p);
+		}
 	}
 }

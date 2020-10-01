@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using TMPro;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

@@ -44,7 +44,7 @@ namespace Ciber_Turtle.Audio
 
 			if (sfx != null)
 			{
-				PlaySoundRaw(sfx.sounds[Util.GetRandomItem(sfx.sounds.Length)], sfx.volume.RandomValue * Convert.ToInt16(addWhenOveride) + volume, sfx.pitch.RandomValue * Convert.ToInt16(addWhenOveride) + pitch, sfx.alt);
+				PlaySoundRaw(sfx.sounds[Util.GetRandomItem(sfx.sounds.Length)], sfx.volume.randomValue * Convert.ToInt16(addWhenOveride) + volume, sfx.pitch.randomValue * Convert.ToInt16(addWhenOveride) + pitch, sfx.alt);
 			}
 			else
 			{
