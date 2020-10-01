@@ -6,10 +6,8 @@ A Pack of a bunch of handy scripts for Unity *(may be a bit unorganised)*
  - Audio Managers
  - Game Statistics
  - Very Simple Input Controller
- - UI Elements
  - IO Controller *(in dev)*
  - Open Project in Code Option
  - Utility Pack
  - Cheat System *(in dev)*
- - Pathfinding *(in dev)*
- - Min Max Drawer *(in dev but usable)*
+ - Min Max
