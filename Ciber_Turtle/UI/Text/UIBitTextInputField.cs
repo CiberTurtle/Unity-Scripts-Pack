@@ -31,6 +31,8 @@ namespace Ciber_Turtle.UI
 
 		protected override void Start()
 		{
+			base.Start();
+
 			RefreshSprite();
 		}
 
@@ -119,6 +121,8 @@ namespace Ciber_Turtle.UI
 
 		public override void OnPointerDown(PointerEventData eventData)
 		{
+			base.OnPointerDown(eventData);
+
 			m_inputText.caretIndex = m_value.Length;
 			this.Select();
 		}

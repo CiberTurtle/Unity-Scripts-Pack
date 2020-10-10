@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fac9eb50e52104f9fd7d6a11b0cbf3, type: 3}
   m_Name: Ciber_Turtle Settings
   m_EditorClassIdentifier: 
+  defaultBitmapFont: {fileID: 11400000, guid: c8abff42e9f6e624590862eed43a6c9b, type: 2}
+  openInCodeArgs: -a

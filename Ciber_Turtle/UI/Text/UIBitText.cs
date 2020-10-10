@@ -97,15 +97,6 @@ namespace Ciber_Turtle.UI
 			RefreshSprite();
 		}
 
-		void Awake()
-		{
-			textRend = new Texture2D(2, 2);
-			textRend.filterMode = FilterMode.Point;
-			textRend.wrapMode = TextureWrapMode.Clamp;
-			textRend.mipMapBias = -10;
-			textRend.Apply(true);
-		}
-
 		void Start()
 		{
 			switch (m_uiDrawMode)
@@ -139,6 +130,11 @@ namespace Ciber_Turtle.UI
 		[ContextMenu("Refresh/Sprite")]
 		public void RefreshSprite()
 		{
+			textRend = new Texture2D(Mathf.Clamp(m_text.Length * (m_font.pixelsPerChar.x + m_font.kerning), m_font.pixelsPerChar.x, int.MaxValue), m_font.pixelsPerChar.y);
+			textRend.filterMode = FilterMode.Point;
+			textRend.wrapMode = TextureWrapMode.Clamp;
+			textRend.Apply();
+
 			switch (m_uiDrawMode)
 			{
 				case UIDrawMode.RawImage:
@@ -151,8 +147,6 @@ namespace Ciber_Turtle.UI
 					spr = GetComponent<SpriteRenderer>();
 					break;
 			}
-
-			textRend.Resize(Mathf.Clamp(m_text.Length * (m_font.pixelsPerChar.x + m_font.kerning), m_font.pixelsPerChar.x, int.MaxValue), m_font.pixelsPerChar.y);
 
 			List<int> textIndexes = new List<int>();
 
