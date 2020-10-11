@@ -5,6 +5,7 @@ using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using Ciber_Turtle.Internal;
 
 namespace Ciber_Turtle.UI
 {
@@ -15,27 +16,23 @@ namespace Ciber_Turtle.UI
 		[MenuItem("GameObject/UI/Progress Bar/Linear Progress Bar")]
 		public static void AddLinear()
 		{
-			GameObject obj = Instantiate(Resources.Load<GameObject>("UI/Linear Progress Bar"));
-			obj.name = "Linear Progress Bar";
-			obj.transform.SetParent(Selection.activeGameObject.transform, false);
+			Create.CreateObjAtSelection(Settings.settings.progressBarLinearCreate, "Linear Progress Bar");
 		}
 
 		[MenuItem("GameObject/UI/Progress Bar/Radial Progress Bar")]
 		public static void AddRadial()
 		{
-			GameObject obj = Instantiate(Resources.Load<GameObject>("UI/Radial Progress Bar"));
-			obj.name = "Radial Progress Bar";
-			obj.transform.SetParent(Selection.activeGameObject.transform, false);
+			Create.CreateObjAtSelection(Settings.settings.progressBarRadialCreate, "Radial Progress Bar");
 		}
 #endif
 
 		public enum BarType
 		{
-			linear,
-			radial
+			Linear,
+			Radial
 		}
 
-		[SerializeField, FormerlySerializedAs("type")] BarType m_type = BarType.linear;
+		[SerializeField, FormerlySerializedAs("type")] BarType m_type = BarType.Linear;
 		public BarType type { get => m_type; set { m_type = value; RefreshBar(); } }
 		[Space]
 		[SerializeField, FormerlySerializedAs("value")] float m_value = 0;
@@ -60,10 +57,10 @@ namespace Ciber_Turtle.UI
 		public UIBitText minText { get => m_valueMinText; set { m_valueMinText = value; RefreshBar(); } }
 		[SerializeField, FormerlySerializedAs("maxValueText")] UIBitText m_valueMaxText;
 		public UIBitText maxText { get => m_valueMaxText; set { m_valueMaxText = value; RefreshBar(); } }
-		[SerializeField, FormerlySerializedAs("mask")] Image m_mask;
-		public Image mask { get => m_mask; set { m_mask = value; RefreshBar(); } }
 		[SerializeField, FormerlySerializedAs("fill")] Image m_fill;
 		public Image fill { get => m_fill; set { m_fill = value; RefreshBar(); } }
+		[SerializeField, FormerlySerializedAs("colored")] Image m_colored;
+		public Image colored { get => m_colored; set { m_colored = value; RefreshBar(); } }
 
 		public UIProgressBar(float newValue, float max, float min = 0) { m_value = newValue; m_maxValue = max; m_minValue = min; RefreshBar(); }
 
@@ -90,15 +87,15 @@ namespace Ciber_Turtle.UI
 
 			switch (m_type)
 			{
-				case BarType.linear:
-					if (m_mask) { m_mask.fillAmount = amount; }
+				case BarType.Linear:
+					if (m_fill) { m_fill.fillAmount = amount; }
 
-					if (m_fill) { m_fill.color = m_gradient.Evaluate(amount); }
+					if (m_colored) { m_colored.color = m_gradient.Evaluate(amount); }
 					break;
-				case BarType.radial:
-					if (m_fill) { m_mask.fillAmount = amount; m_fill.color = m_gradient.Evaluate(amount); }
+				case BarType.Radial:
+					if (m_colored) { m_fill.fillAmount = amount; m_colored.color = m_gradient.Evaluate(amount); }
 
-					// if (mask) {  }
+					// if (fill) {  }
 					break;
 			}
 

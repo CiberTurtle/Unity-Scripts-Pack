@@ -12,5 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fac9eb50e52104f9fd7d6a11b0cbf3, type: 3}
   m_Name: Ciber_Turtle Settings
   m_EditorClassIdentifier: 
-  defaultBitmapFont: {fileID: 11400000, guid: c8abff42e9f6e624590862eed43a6c9b, type: 2}
+  unpackPrefabWhenCreate: 1
+  progressBarLinearCreate: {fileID: 1090881075269294332, guid: 50c8309633434ad4796cb7456026f65e, type: 3}
+  progressBarRadialCreate: {fileID: 965054404035314264, guid: a0d997e1d4dc02645a7961d32949e283, type: 3}
+  bitTextCreate: {fileID: 0}
+  bitTextFieldCreate: {fileID: 0}
+  defaultBitmapFont: {fileID: 0}
   openInCodeArgs: -a

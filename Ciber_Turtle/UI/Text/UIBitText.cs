@@ -1,9 +1,12 @@
-﻿#pragma warning disable 649
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+using Ciber_Turtle.Internal;
 
 namespace Ciber_Turtle.UI
 {
@@ -14,9 +17,16 @@ namespace Ciber_Turtle.UI
 		SpriteRenderer
 	}
 
-	[AddComponentMenu("UI/Bitmap Text"), ExecuteInEditMode]
+	[AddComponentMenu("UI/Bitmap Text"), ExecuteInEditMode, DisallowMultipleComponent]
 	public class UIBitText : MonoBehaviour
 	{
+#if UNITY_EDITOR
+		[MenuItem("GameObject/UI/Bitmap Text")]
+		public static void AddText()
+		{
+			Create.CreateObjAtSelection(Settings.settings.bitTextCreate, "Bitmap Text");
+		}
+#endif
 
 		public enum ColorBlendMode
 		{
@@ -130,7 +140,9 @@ namespace Ciber_Turtle.UI
 		[ContextMenu("Refresh/Sprite")]
 		public void RefreshSprite()
 		{
-			textRend = new Texture2D(Mathf.Clamp(m_text.Length * (m_font.pixelsPerChar.x + m_font.kerning), m_font.pixelsPerChar.x, int.MaxValue), m_font.pixelsPerChar.y);
+			string textToRender = string.IsNullOrEmpty(m_text) ? " " : m_text;
+
+			textRend = new Texture2D(Mathf.Clamp(textToRender.Length * (m_font.pixelsPerChar.x + m_font.kerning), m_font.pixelsPerChar.x, int.MaxValue), m_font.pixelsPerChar.y);
 			textRend.filterMode = FilterMode.Point;
 			textRend.wrapMode = TextureWrapMode.Clamp;
 			textRend.Apply();
@@ -150,9 +162,9 @@ namespace Ciber_Turtle.UI
 
 			List<int> textIndexes = new List<int>();
 
-			for (int i = 0; i < m_text.Length; i++)
+			for (int i = 0; i < textToRender.Length; i++)
 			{
-				textIndexes.Add(m_font.FindCharIndex(m_text[i]));
+				textIndexes.Add(m_font.FindCharIndex(textToRender[i]));
 			}
 
 			List<Color> colorBGBlock = new List<Color>();
@@ -165,7 +177,7 @@ namespace Ciber_Turtle.UI
 				}
 			}
 
-			for (int i = 0; i < text.Length; i++)
+			for (int i = 0; i < textToRender.Length; i++)
 			{
 				if (m_selection.start >= 0)
 				{

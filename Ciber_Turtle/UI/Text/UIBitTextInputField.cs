@@ -5,13 +5,25 @@ using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using Ciber_Turtle.Input;
+using Ciber_Turtle.Internal;
 
 namespace Ciber_Turtle.UI
 {
-	[ExecuteInEditMode]
+	[AddComponentMenu("UI/Bitmap Text Feild"), ExecuteInEditMode, DisallowMultipleComponent]
 	public class UIBitTextInputField : Selectable
 	{
+#if UNITY_EDITOR
+		[MenuItem("GameObject/UI/Bitmap Text")]
+		public static void AddText()
+		{
+			Create.CreateObjAtSelection(Settings.settings.bitTextFieldCreate, "Bitmap Text Field");
+		}
+#endif
+
 		public string value { get => Value; set => Value = value; }
 
 		[Space]

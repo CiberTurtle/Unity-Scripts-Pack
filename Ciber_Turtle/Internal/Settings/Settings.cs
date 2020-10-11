@@ -1,5 +1,4 @@
-﻿#pragma warning disable 649
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Ciber_Turtle.Internal
 {
