@@ -6,23 +6,23 @@ namespace Ciber_Turtle.Internal
 	// [CreateAssetMenu(fileName = "Ciber_Turtle Settings", menuName = "Tools/Ciber_Turtle Settings", order = 0)]
 	public class SOSettings : ScriptableObject
 	{
-		[Header("General")]
 #if UNITY_EDITOR
+		[Header("General")]
 		public bool unpackPrefabWhenCreate;
 #endif
-		[Header("Pregress Bar")]
 #if UNITY_EDITOR
+		[Header("Pregress Bar")]
 		public GameObject progressBarLinearCreate;
 		public GameObject progressBarRadialCreate;
 #endif
-		[Header("Bitmap Text")]
 #if UNITY_EDITOR
+		[Header("Bitmap Text")]
 		public GameObject bitTextCreate;
 		public GameObject bitTextFieldCreate;
 #endif
 		public SOUIBitTextFont defaultBitmapFont;
-		[Header("Tools")]
 #if UNITY_EDITOR
+		[Header("Tools")]
 		public string openInCodeArgs;
 #endif
 

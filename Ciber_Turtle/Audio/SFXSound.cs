@@ -17,6 +17,6 @@ namespace Ciber_Turtle.Audio
 		[Space]
 		public bool alt = false;
 		[Space]
-		public AudioClip[] sounds = new AudioClip[0];
+		[NaughtyAttributes.ReorderableList] public AudioClip[] sounds = new AudioClip[0];
 	}
 }

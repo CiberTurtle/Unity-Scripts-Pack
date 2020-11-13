@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1628612a097ba843897d41015ec545a, type: 3}
-  m_Name: font
+  m_Name: Font
   m_EditorClassIdentifier: 
   font: {fileID: 2800000, guid: f7ef295eef78b694f8c45fe04681fee1, type: 3}
   pixelsPerChar: {x: 10, y: 16}

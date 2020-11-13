@@ -1,4 +1,5 @@
-﻿#pragma warning disable 649
+﻿#if UNITY_EDITOR
+#pragma warning disable 649
 using UnityEngine;
 using System.Diagnostics;
 using UnityEditor;
@@ -20,3 +21,4 @@ namespace Ciber_Turtle.Tools
 		}
 	}
 }
+#endif

@@ -104,6 +104,14 @@ public class Util
 			return null;
 	}
 
+	public static GameObject TryInstantiate(GameObject gameObject)
+	{
+		if (gameObject)
+			return MonoBehaviour.Instantiate(gameObject);
+		else
+			return null;
+	}
+
 	public static GameObject TryInstantiate(GameObject gameObject, Vector3 position, Quaternion rotation)
 	{
 		if (gameObject)

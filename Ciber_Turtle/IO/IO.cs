@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Threading;
 using UnityEngine;
+using System.Reflection;
 
 namespace Ciber_Turtle.IO
 {
@@ -19,7 +20,7 @@ namespace Ciber_Turtle.IO
 			UTF8,
 		}
 
-		#region Varibles > Public
+		static string m_BASE_PATH = $"{Application.dataPath}/";
 		public static string BASE_PATH
 		{
 			get => m_BASE_PATH;
@@ -31,13 +32,33 @@ namespace Ciber_Turtle.IO
 		}
 		public static bool enableBasicEncyption = false;
 		public static EncodingMethod encoding = EncodingMethod.ASCII;
-		// public static Thread writeThread { get => m_writeThread; }
-		#endregion
 
-		#region Varibles Private
-		static string m_BASE_PATH = $"{Application.dataPath}/";
-		// static Thread m_writeThread;
-		#endregion
+		public static void SetObj(string key, object value, bool encrypt = false)
+		{
+			if (encrypt)
+			{
+				PlayerPrefs.SetString(key, Encrypt(JsonUtility.ToJson(value)));
+				return;
+			}
+			PlayerPrefs.SetString(key, JsonUtility.ToJson(value));
+		}
+
+		public static T GetObj<T>(string key, bool encrypted = false)
+		{
+			string json;
+
+			if (encrypted) json = PlayerPrefs.GetString(key, String.Empty);
+			json = Decrypt(PlayerPrefs.GetString(key, String.Empty));
+
+			if (string.IsNullOrEmpty(json)) return default(T);
+
+			return JsonUtility.FromJson<T>(json);
+		}
+
+		public static void DeleteObj(string key)
+		{
+			PlayerPrefs.DeleteKey(key);
+		}
 
 		public static void CreateFolder(string path)
 		{
@@ -59,23 +80,9 @@ namespace Ciber_Turtle.IO
 			if (encrypt)
 			{
 				File.WriteAllText(path, Encrypt(data));
+				return;
 			}
-			else
-			{
-				File.WriteAllText(path, data);
-			}
-		}
-
-		public static void WriteStringAsync(string path, string data, bool encrypt = false)
-		{
-			if (encrypt)
-			{
-				File.WriteAllText(path, Encrypt(data));
-			}
-			else
-			{
-				File.WriteAllText(path, data);
-			}
+			File.WriteAllText(path, data);
 		}
 
 		public static string ReadString(string path, bool encrypt = false)

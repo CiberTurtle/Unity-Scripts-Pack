@@ -13,7 +13,7 @@ namespace Ciber_Turtle.Audio
 		public static SFX current { get => m_current; }
 		static SFX m_current;
 
-		[SerializeField] List<SFXSound> sfxs = new List<SFXSound>();
+		[NaughtyAttributes.ReorderableList] public List<SFXSound> sfxs = new List<SFXSound>();
 		[Header("Settings")]
 		public bool addWhenOveride = true;
 		public bool dontDestroyOnLoad = false;

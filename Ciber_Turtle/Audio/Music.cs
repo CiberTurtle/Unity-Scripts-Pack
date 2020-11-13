@@ -15,7 +15,7 @@ namespace Ciber_Turtle.Audio
 
 		static Music m_current;
 
-		List<MusicSound> music = new List<MusicSound>();
+		[NaughtyAttributes.ReorderableList] List<MusicSound> music = new List<MusicSound>();
 
 		public AudioMixerGroup altMixer = null;
 		[Header("Settings")]
