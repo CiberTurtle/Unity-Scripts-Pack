@@ -86,9 +86,14 @@ public class Util
 		return (pointA - pointB).sqrMagnitude < amount * amount;
 	}
 
-	public static int GetRandomItem(int length)
+	public static T GetRandomItem<T>(System.Collections.Generic.List<T> list)
 	{
-		return Mathf.RoundToInt(Random.Range(0, length));
+		return list[Mathf.RoundToInt(Random.Range(0, list.Count))];
+	}
+
+	public static T GetRandomItem<T>(T[] list)
+	{
+		return list[Mathf.RoundToInt(Random.Range(0, list.Length))];
 	}
 
 	public static Color ChangeAlpha(Color color, float a)
